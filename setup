@@ -4,7 +4,10 @@ user_name=$(whoami)
 env_home="/home/$user_name/.ansible-venv"
 python_ver="3.10.14"
 
-curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash
+if ! curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash; then
+  echo "Ошибка установки pyenv"
+  exit 1
+fi
 
 echo "Устанавливаем Python $python_ver с помощью pyenv"
 pyenv install $python_ver
