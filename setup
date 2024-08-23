@@ -4,8 +4,10 @@ user_name=$(whoami)
 env_home="/home/$user_name/.ansible-venv"
 python_ver="3.10.14"
 
-if ! curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash; then
-  echo "Ошибка установки pyenv"
+curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash
+
+if ! command -v pyenv &> /dev/null; then
+  echo "Ошибка: pyenv не установлен"
   exit 1
 fi
 
