@@ -1,8 +1,10 @@
 #!/bin/bash
 
 user_name=$(whoami)
-env_home="/home/$user_name/.ansible-venv"
 python_ver="3.10.14"
+env_name="ansible-venv"
+env_home="/home/$user_name/.pyenv/versions/$env_name"
+
 
 curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash
 
@@ -16,8 +18,7 @@ pyenv install $python_ver
 pyenv global $python_ver
 
 echo "Создаем виртуальную среду"
-pyenv virtualenv $python_ver ansible-venv
-pyenv local ansible-venv
+pyenv virtualenv $python_ver $env_name
 
 source $env_home/bin/activate
 
