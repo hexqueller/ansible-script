@@ -41,10 +41,8 @@ bash
 
 if [ -f /home/$user_name/.zshrc ]; then
     echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.zshrc
-    zsh
 elif [ -f /home/$user_name/.bashrc ]; then
     echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.bashrc
-    bash
 else
     echo "Установка завершена, но не удалось найти .bashrc или .zshrc."
     echo "Добавьте Alias вручную: alias activate='source $env_home/bin/activate'"
