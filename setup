@@ -22,4 +22,5 @@ echo "Устанавливаем jinja2 версии 3.0"
 pip install jinja2==3.0
 
 deactivate
-echo "Для работы с Ansible нужно активировать виртуальную среду! Это можно сделать командой: $env_home/bin/activate"
+echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.bashrc
+echo "Для работы с Ansible нужно активировать виртуальную среду! Это можно сделать командой: activate"
