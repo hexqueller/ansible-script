@@ -6,7 +6,7 @@ env_name="ansible-venv"
 env_home="/home/$user_name/.pyenv/versions/$env_name"
 
 
-curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash
+curl -sSL https://raw.githubusercontent.com/hexqueller/prepare-ansible/master/pyenv | bash
 
 if ! command -v pyenv &> /dev/null; then
   echo "Ошибка: pyenv не установлен. Попробуйте вручную: curl https://pyenv.run | bash"
@@ -19,17 +19,21 @@ pyenv global $python_ver
 
 echo "Создаем виртуальную среду"
 pyenv virtualenv $python_ver $env_name
-
 source $env_home/bin/activate
 
 echo "Устанавливаем Ansible версии 2.12"
 pip install ansible-core==2.12
 
-echo "Устанавливаем python-netaddr"
+echo "Устанавливаем зависимости"
 pip install netaddr
-
-echo "Устанавливаем jinja2 версии 3.0"
 pip install jinja2==3.0
+pip install jmespath
+pip install psycopg2
+ansible-galaxy collection install community.general
+ansible-galaxy collection install ansible.posix
+ansible-galaxy collection install community.crypto
+ansible-galaxy collection install community.postgresql
+ansible-galaxy collection install ansible.utils
 
 deactivate
 echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.bashrc
