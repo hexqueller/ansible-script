@@ -3,17 +3,16 @@
 user_name=$(whoami)
 env_home="/home/$user_name/.ansible-venv"
 python_ver="3.10.14"
-python_url="https://www.python.org/ftp/python/$python_ver/Python-$python_ver.tgz"
 
-echo "Скачиваем и распаковываем бинарный файл Python $python_ver"
-curl -L $python_url -o /tmp/Python-$python_ver.tgz
-tar -xzf /tmp/Python-$python_ver.tgz -C /tmp
+curl -sSL https://raw.githubusercontent.com/hexqueller/ansible-script/master/pyenv | bash
 
-python_path="/tmp/Python-$python_ver"
+echo "Устанавливаем Python $python_ver с помощью pyenv"
+pyenv install $python_ver
 
-echo "Создаем и активируем виртуальную среду"
-$python_path/bin/python3 -m venv $env_home
-rm -rf /tmp/Python-$python_ver.tgz /tmp/Python-$python_ver
+pyenv global $python_ver
+
+echo "Создаем виртуальную среду"
+python -m venv $env_home
 
 source $env_home/bin/activate
 
