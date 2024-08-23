@@ -2,23 +2,24 @@
 
 user_name=$(whoami)
 env_home="/home/$user_name/.ansible-venv"
-env_python="$env_home/bin/python"
-env_pip="$env_home/bin/pip"
-env_ansible="$env_home/bin/ansible"
 
 if ! command -v python &> /dev/null; then
     echo "Python is required"
     exit 1
 fi
 
-echo "Создаем виртуальную среду"
+echo "Создаем и активируем виртуальную среду"
 python -m venv $env_home
+source $env_home/bin/activate
 
 echo "Устанавливаем Ansible версии 2.12"
-$env_pip install ansible-core==2.12
+pip install ansible-core==2.12
 
 echo "Устанавливаем python-netaddr"
-$env_pip install netaddr
+pip install netaddr
 
 echo "Устанавливаем jinja2 версии 3.0"
-$env_pip install jinja2==3.0
+pip install jinja2==3.0
+
+deactivate
+echo "Для работы с Ansible нужно активировать виртуальную среду! Это можно сделать командой: $env_home/bin/activate"
