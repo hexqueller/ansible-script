@@ -14,5 +14,11 @@ fi
 echo "Создаем виртуальную среду"
 python -m venv $env_home
 
-echo "Устанавливаем Ansible"
-$env_pip install ansible
+echo "Устанавливаем Ansible версии 2.12"
+$env_pip install ansible==2.12
+
+echo "Устанавливаем python-netaddr"
+$env_pip install netaddr
+
+echo "Устанавливаем jinja2 версии 3.0"
+$env_pip install jinja2==3.0
