@@ -5,12 +5,13 @@ python_ver="3.10.14"
 env_name="ansible-venv"
 env_home="/home/$user_name/.pyenv/versions/$env_name"
 
-
-curl -sSL https://raw.githubusercontent.com/hexqueller/prepare-ansible/master/pyenv | bash
-
 if ! command -v pyenv &> /dev/null; then
-  echo "Ошибка: pyenv не установлен. Попробуйте вручную: curl https://pyenv.run | bash"
-  exit 1
+    echo "Ошибка: pyenv не установлен. Запускается установка"
+    rm -rf /home/$user_name/.pyenv
+    curl https://pyenv.run | bash
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 fi
 
 echo "Устанавливаем Python $python_ver с помощью pyenv"
@@ -27,6 +28,7 @@ pip install ansible-core==2.12
 echo "Устанавливаем зависимости"
 pip install netaddr
 pip install jinja2==3.0
+pip install markupsafe==2.0.1
 pip install jmespath
 pip install psycopg2
 ansible-galaxy collection install community.general
