@@ -3,23 +3,19 @@
 user_name=$(whoami)
 python_ver="3.10.14"
 env_name="ansible-venv"
-env_home="/home/$user_name/$env_name"
 
-if ! command -v pyenv &> /dev/null; then
-    echo "Ошибка: pyenv не установлен. Запускается установка"
-    rm -rf /home/$user_name/.pyenv
-    curl https://pyenv.run | bash
-    # echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-    # echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-    # echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-fi
+env_home="/home/$user_name/$env_name"
+pyenv_home="/home/$user_name/.pyenv"
+pyenv_bin="$pyenv_home/bin/pyenv"
+
+curl https://pyenv.run | bash
 
 echo "Устанавливаем Python $python_ver с помощью pyenv"
-pyenv install $python_ver
+$pyenv_bin install $python_ver
 # pyenv global $python_ver
 
 echo "Создаем виртуальную среду"
-pyenv virtualenv $python_ver $env_name
+$pyenv_bin virtualenv $python_ver $env_name
 source $env_home/bin/activate
 
 echo "Устанавливаем Ansible версии 2.12"
@@ -41,3 +37,4 @@ deactivate
 echo "alias activate='source $env_home/bin/activate'" >> ~/.bashrc
 source ~/.bashrc
 echo "Для работы с Ansible нужно активировать виртуальную среду! Это можно сделать командой: activate"
+rm -rf /home/$user_name/.pyenv
