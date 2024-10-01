@@ -3,9 +3,9 @@
 user_name=$(whoami)
 python_ver="3.10.14"
 env_name=".ansible-venv"
-
 env_home="/home/$user_name/$env_name"
 pyenv_home="/home/$user_name/.pyenv"
+pyenv_env="$pyenv_home/versions/$env_name"
 pyenv_bin="$pyenv_home/bin/pyenv"
 
 rm -rf $env_home $pyenv_home
@@ -13,10 +13,8 @@ rm -rf $env_home $pyenv_home
 curl https://pyenv.run | bash
 
 $pyenv_bin install $python_ver
-
-mkdir -p $env_home
-$pyenv_bin virtualenv $python_ver $env_home
-source $env_home/bin/activate
+$pyenv_bin virtualenv $python_ver $env_name
+source $pyenv_env/bin/activate
 
 pip install ansible-core==2.12
 pip install netaddr
@@ -31,7 +29,10 @@ ansible-galaxy collection install community.postgresql
 ansible-galaxy collection install ansible.utils
 deactivate
 
+mkdir -p $env_home
+cp -r $pyenv_env/* $env_home/
+rm -rf $pyenv_home
+
 echo "alias activate='source $env_home/bin/activate'" >> ~/.bashrc
 source ~/.bashrc
 echo 'Перед работой с Ansible нужно активировать виртуальную среду! Это можно сделать командой: "activate"'
-rm -rf $pyenv_home
