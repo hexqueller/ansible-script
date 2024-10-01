@@ -2,15 +2,17 @@
 
 user_name=$(whoami)
 python_ver="3.10.14"
-env_name="ansible-venv"
+env_name=".ansible-venv"
 
 env_home="/home/$user_name/$env_name"
 pyenv_home="/home/$user_name/.pyenv"
 pyenv_bin="$pyenv_home/bin/pyenv"
 
+rm -rf $env_home $pyenv_home
+mkdir -p $env_home
+
 curl https://pyenv.run | bash
 
-echo "Устанавливаем Python $python_ver с помощью pyenv"
 $pyenv_bin install $python_ver
 # pyenv global $python_ver
 
@@ -26,7 +28,7 @@ pip install netaddr
 pip install jinja2==3.0
 pip install markupsafe==2.0.1
 pip install jmespath
-pip install psycopg2
+# pip install psycopg2
 ansible-galaxy collection install community.general
 ansible-galaxy collection install ansible.posix
 ansible-galaxy collection install community.crypto
@@ -36,5 +38,5 @@ deactivate
 
 echo "alias activate='source $env_home/bin/activate'" >> ~/.bashrc
 source ~/.bashrc
-echo "Для работы с Ansible нужно активировать виртуальную среду! Это можно сделать командой: activate"
-rm -rf /home/$user_name/.pyenv
+echo 'Перед работой с Ansible нужно активировать виртуальную среду! Это можно сделать командой: "activate"'
+rm -rf $pyenv_home
