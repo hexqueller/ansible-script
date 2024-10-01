@@ -9,21 +9,16 @@ pyenv_home="/home/$user_name/.pyenv"
 pyenv_bin="$pyenv_home/bin/pyenv"
 
 rm -rf $env_home $pyenv_home
-mkdir -p $env_home
 
 curl https://pyenv.run | bash
 
 $pyenv_bin install $python_ver
-# pyenv global $python_ver
 
-echo "Создаем виртуальную среду"
-$pyenv_bin virtualenv $python_ver $env_name
+mkdir -p $env_home
+$pyenv_bin virtualenv $python_ver $env_home
 source $env_home/bin/activate
 
-echo "Устанавливаем Ansible версии 2.12"
 pip install ansible-core==2.12
-
-echo "Устанавливаем зависимости"
 pip install netaddr
 pip install jinja2==3.0
 pip install markupsafe==2.0.1
