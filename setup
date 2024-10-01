@@ -3,20 +3,20 @@
 user_name=$(whoami)
 python_ver="3.10.14"
 env_name="ansible-venv"
-env_home="/home/$user_name/.pyenv/versions/$env_name"
+env_home="/home/$user_name/$env_name"
 
 if ! command -v pyenv &> /dev/null; then
     echo "Ошибка: pyenv не установлен. Запускается установка"
     rm -rf /home/$user_name/.pyenv
     curl https://pyenv.run | bash
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-    echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+    # echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+    # echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+    # echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 fi
 
 echo "Устанавливаем Python $python_ver с помощью pyenv"
 pyenv install $python_ver
-pyenv global $python_ver
+# pyenv global $python_ver
 
 echo "Создаем виртуальную среду"
 pyenv virtualenv $python_ver $env_name
@@ -36,19 +36,8 @@ ansible-galaxy collection install ansible.posix
 ansible-galaxy collection install community.crypto
 ansible-galaxy collection install community.postgresql
 ansible-galaxy collection install ansible.utils
-
 deactivate
-echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.bashrc
-bash
 
-if [ -f /home/$user_name/.zshrc ]; then
-    echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.zshrc
-elif [ -f /home/$user_name/.bashrc ]; then
-    echo "alias activate='source $env_home/bin/activate'" >> /home/$user_name/.bashrc
-else
-    echo "Установка завершена, но не удалось найти .bashrc или .zshrc."
-    echo "Добавьте Alias вручную: alias activate='source $env_home/bin/activate'"
-    exit 0
-fi
-
+echo "alias activate='source $env_home/bin/activate'" >> ~/.bashrc
+source ~/.bashrc
 echo "Для работы с Ansible нужно активировать виртуальную среду! Это можно сделать командой: activate"
