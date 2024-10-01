@@ -9,13 +9,7 @@ RHEL based
 sudo yum install  -y git curl tar zlib-devel gcc openssl-devel bzip2-devel readline-devel sqlite-devel wget curl llvm xz-devel tk-devel libffi-devel xz-devel python3-devel
 ```
 
-
 ### Использование:
 ```bash
 curl -sSL https://raw.githubusercontent.com/hexqueller/prepare-ansible/master/setup | bash
 ```
-
-
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
